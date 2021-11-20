@@ -1,17 +1,23 @@
 
-import {useState} from 'react';
+import {useState, useContext} from 'react';
 import {Link} from 'react-router-dom';
+import { AuthContext } from '../../contexts/auth';
 import './signup.css';
 import logo from '../../assets/logo.png';
+
 
 function SingUp(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [nome, setNome] = useState('');
+    const {signUp} = useContext(AuthContext);
 
     function handleSubmit(e){
         e.preventDefault();//para não atualizar pg
-        alert("envou")
+        
+        if(nome !== '' && email !== '' && password !== ''){
+            signUp(email, password, nome)
+        }
     }
 
 
