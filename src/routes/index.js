@@ -1,8 +1,8 @@
 import { Switch } from "react-router-dom";
 import Route from './Route';
 
-import SingIn from '../pages/SingnIn';
-import SingUp from '../pages/SingUp';
+import SingIn from '../pages/SignIn';
+import SingUp from '../pages/SignUp';
 import Dashboard from "../pages/Dashboard";
 
 
