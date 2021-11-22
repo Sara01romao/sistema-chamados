@@ -27,6 +27,36 @@ function AuthProvider({ children}){
         
     }, [])
 
+    //fazer login
+    async function signIn(email, password){
+        setLoadingAuth(true);
+
+        await firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(async (value) => {
+            let uid = value.user.uid;
+            
+            const userProfile = await firebase.firestore().collection('users')
+            .doc(uid).get();
+
+            let data = {
+                uid: uid,
+                nome: userProfile.data().nome,
+                avatarUrl: userProfile.data().avatarUrl,
+                email:value.user.email
+            };
+
+            setUser(data);
+            storageUser(data);
+            setLoadingAuth(false);
+
+
+        })
+        .catch((error) =>{
+            console.log(error);
+            setLoadingAuth(false);
+        })
+    }
+
     //função apra cadastrar usúario
     async function signUp(email, password, nome){
         setLoadingAuth(true);
@@ -73,7 +103,7 @@ function AuthProvider({ children}){
     }
 
     return(
-        <AuthContext.Provider value={{signed: !!user, setUser, loading,  signUp , signOut}}>
+        <AuthContext.Provider value={{signed: !!user, setUser, loading,  signUp , signOut, signIn, loadingAuth}}>
             {children}
         </AuthContext.Provider>
     )
