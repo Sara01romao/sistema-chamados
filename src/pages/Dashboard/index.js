@@ -10,7 +10,7 @@ function Dashboard(){
         <div>
             <Header/>
             <h1>Dashboard</h1>
-            <button color="#fff" onClick={() => signOut()}>Fazer logout</button>
+         
         </div>
     )
 }
