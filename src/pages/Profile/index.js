@@ -35,36 +35,39 @@ export default function Profile(){
     //para enviar foto
     async function handleUpload(){
       const currentUid = user.uid;
-      
+
       const uploadTask = await firebase.storage()
-      .ref(`ìmages/${currentUid}/${imageAvatar.name}`)
+      .ref(`images/${currentUid}/${imageAvatar.name}`)
       .put(imageAvatar)
-      .then( async() => {
-          console.log('Foto enviada')
+      .then(async ()=>{
+          console.log('FOTO enviada com sucesso');
 
           await firebase.storage().ref(`images/${currentUid}`)
           .child(imageAvatar.name).getDownloadURL()
-          .then(async (url)=>{
-              let urlFoto = url;
-              
+          .then(async(url) =>{
+              let urlFoto =url;
+
               await firebase.firestore().collection('users')
               .doc(user.uid)
               .update({
                   avatarUrl: urlFoto,
-                  nome : nome
+                  nome:nome
               })
               .then(() =>{
-                  let data = {
-                      ...user,
-                      avatarUrl: urlFoto,
-                      nome: nome
+                  let data ={
+                    ...user,
+                    avatarUrl:urlFoto,
+                    nome:nome
                   };
                   setUser(data);
-                  storageUser(data);
+                  storageUser(data)
               })
+
 
           })
       })
+      
+    
     }
 
     async function handleSave(e){
